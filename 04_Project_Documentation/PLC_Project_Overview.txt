@@ -1,0 +1,112 @@
+AUTOMATED CONVEYOR CONTROL SYSTEM
+
+PLC PROJECT OVERVIEW
+
+Project Type: PLC Ladder Logic Simulation
+Software: OpenPLC Editor
+Application: Industrial Conveyor Automation
+Development Environment: macOS
+
+1. PROJECT OBJECTIVE
+
+The objective of this project was to design, implement, and test a simulated industrial conveyor control system using PLC ladder logic in OpenPLC Editor. The system incorporates motor start/stop control, a motor holding circuit, overload fault detection and latching, manual fault reset, product counting, automatic batch completion at 10 products, and run/fault status indicators. The project demonstrates fundamental PLC programming, industrial automation logic, interlocking, fault handling, and simulation-based functional testing.
+
+
+2. SYSTEM OPERATION
+
+The simulated conveyor system uses PLC ladder logic to control motor operation and monitor product movement. The conveyor motor starts when the Start_Button is activated, provided that Stop_OK and Overload_OK are TRUE, no fault is latched, and the batch is not complete. A motor holding circuit maintains operation after the Start_Button is released.
+
+The motor stops when the stop condition is activated, an overload fault occurs, or the product counter reaches the preset batch quantity of 10. An overload fault is latched until the overload condition is cleared and Reset_Button is activated. The product counter also uses Reset_Button to clear the count and batch-complete condition. Run_Lamp indicates motor operation, while Fault_Lamp indicates a latched fault.
+
+
+3. PLC INPUTS AND OUTPUTS
+
+PLC INPUT VARIABLES
+Start_Button (BOOL): Simulated command to start the conveyor motor.
+Stop_OK (BOOL): Stop-permissive signal; FALSE stops the motor.
+Product_Sensor (BOOL): Simulated product detection signal used for counting.
+Overload_OK (BOOL): Overload-permissive signal; FALSE triggers a latched fault.
+Reset_Button (BOOL): Command to reset the fault latch and product counter.
+
+PLC OUTPUT AND STATUS VARIABLES
+Conveyor_Motor (BOOL): Conveyor motor control output.
+Run_Lamp (BOOL): Indicates when the conveyor motor is running.
+Fault_Lamp (BOOL): Indicates a latched overload fault.
+Fault_Latched (BOOL): Internal memory bit storing the fault condition.
+Product_Count (INT): Stores the current product count.
+Batch_Complete (BOOL): Indicates that the preset count of 10 has been reached.
+CTU0 (CTU): Count-up function block used for product counting.
+
+
+4. PLC LADDER LOGIC DESCRIPTION
+
+Rung 1 - Conveyor Motor Start/Stop Control
+Implements motor start/stop logic with a holding circuit. The motor operates only when stop and overload permissives are satisfied, no fault is latched, and the batch is incomplete. The holding circuit maintains motor operation after the start button is released.
+
+Rung 2 - Overload Fault Detection
+Detects an overload condition when Overload_OK becomes FALSE and sets the Fault_Latched memory bit.
+
+Rung 3 - Fault Reset Logic
+Resets Fault_Latched when Overload_OK is TRUE and Reset_Button is activated.
+
+Rung 4 - Product Counting and Batch Completion
+Uses a CTU count-up function block to count rising edges from Product_Sensor. The preset value is 10 products. When the preset is reached, Batch_Complete becomes TRUE and inhibits conveyor motor operation. Reset_Button clears the counter.
+
+Rung 5 - Conveyor Run Indicator
+Activates Run_Lamp when Conveyor_Motor is TRUE.
+
+Rung 6 - Overload Fault Indicator
+Activates Fault_Lamp when Fault_Latched is TRUE.
+
+
+5. SIMULATION TEST RESULTS
+
+The PLC ladder-logic program was tested using OpenPLC simulation. A total of 14 functional simulation checks were documented in the PLC_Simulation_Test_Log.txt file.
+
+MOTOR START/STOP CONTROL
+The motor starts when the start command is activated and all operating permissives are satisfied. The holding circuit maintains operation after the start command is released. Activating the stop condition stops the motor and run indicator. Restoring the stop permissive does not automatically restart the motor.
+
+OVERLOAD FAULT AND RESET
+An overload condition stops the motor and activates the latched fault and fault indicator. The fault remains latched after the overload condition clears. Activating Reset_Button after the overload permissive is restored clears the fault. The motor does not automatically restart after reset.
+
+PRODUCT COUNTING AND BATCH COMPLETION
+Product_Sensor rising edges increment the CTU counter. At the preset value of 10 products, Batch_Complete becomes TRUE and stops the conveyor motor. The completed batch prevents restarting until the counter is reset. Activating Reset_Button clears the count and batch-complete condition, allowing a new counting cycle.
+
+TEST EVIDENCE
+Detailed simulation checks and observed results are recorded in 02_Simulation_Test_Results/PLC_Simulation_Test_Log.txt. Ladder-logic and variable-declaration screenshots are stored in 01_PLC_Screenshots.
+
+TESTING SCOPE
+All reported results were obtained through software simulation. Physical PLC hardware, conveyor equipment, and industrial sensors were not tested.
+
+
+6. TECHNICAL SKILLS DEMONSTRATED
+
+PLC PROGRAMMING
+Developed a six-rung PLC ladder-logic program using OpenPLC Editor, incorporating normally open and normally closed contacts, output coils, SET/RESET logic, and a CTU count-up function block.
+
+INDUSTRIAL CONTROL LOGIC
+Implemented conveyor motor start/stop control, a holding circuit, operating permissives, fault interlocking, and automatic batch-completion stopping.
+
+FAULT HANDLING
+Implemented overload fault detection, fault latching, manual reset logic, and a fault-status indicator.
+
+PRODUCT COUNTING
+Configured a CTU counter to count simulated product-sensor rising edges and trigger batch completion at a preset quantity of 10.
+
+SIMULATION AND FUNCTIONAL TESTING
+Performed and documented 14 PLC simulation checks covering motor operation, overload fault handling, reset behaviour, product counting, and batch completion.
+
+ENGINEERING DOCUMENTATION
+Organised PLC source files, ladder-logic screenshots, variable declarations, simulation test evidence, and technical project documentation into a structured portfolio.
+
+PROJECT SCOPE
+These skills were demonstrated through OpenPLC software simulation rather than physical industrial equipment.
+
+
+7. PROJECT CONCLUSION
+
+This project successfully demonstrated the design and simulation of a PLC-based automated conveyor control system using OpenPLC Editor. The six-rung ladder-logic program incorporated motor start/stop control, a holding circuit, overload fault detection and latching, manual fault reset, product counting, automatic batch completion at 10 products, and operational status indicators.
+
+A total of 14 functional simulation checks were documented to verify the expected control behaviour. The project provided practical experience in PLC ladder-logic programming, industrial control sequencing, fault handling, counter operations, simulation testing, and engineering documentation.
+
+The project was developed and verified in a software simulation environment. Physical PLC hardware and conveyor equipment were not used. Future development could include hardware-based testing, additional safety interlocks, and integration with an operator interface.

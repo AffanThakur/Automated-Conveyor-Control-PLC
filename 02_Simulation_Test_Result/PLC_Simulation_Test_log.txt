@@ -1,0 +1,88 @@
+AUTOMATED CONVEYOR CONTROL
+PLC SIMULATION TEST LOG
+
+Software: OpenPLC Editor
+Project: Automated_Conveyor_Control
+Testing Method: OpenPLC Simulation
+
+TEST RESULTS
+
+TEST 01: MOTOR START/STOP CONTROL
+
+Test 1A - Motor Start
+Input: Start_Button = TRUE
+Observed: Conveyor_Motor = TRUE; Run_Lamp = TRUE
+Result: PASS
+
+Test 1B - Motor Holding Circuit
+Input: Start_Button returned to FALSE
+Observed: Conveyor_Motor and Run_Lamp remained TRUE
+Result: PASS
+
+Test 1C - Motor Stop
+Input: Stop_OK = FALSE
+Observed: Conveyor_Motor = FALSE; Run_Lamp = FALSE
+Result: PASS
+
+Test 1D - No Automatic Restart
+Input: Stop_OK returned to TRUE
+Observed: Conveyor_Motor and Run_Lamp remained FALSE
+Result: PASS
+
+
+TEST 02: OVERLOAD PROTECTION AND FAULT RESET
+
+Test 2A - Overload Detection
+Input: Overload_OK = FALSE
+Observed: Fault_Latched = TRUE; Fault_Lamp = TRUE
+Result: PASS
+
+Test 2B - Fault Latching
+Input: Overload_OK returned to TRUE
+Observed: Fault_Latched and Fault_Lamp remained TRUE
+Result: PASS
+
+Test 2C - Manual Fault Reset
+Input: Reset_Button = TRUE (with Overload_OK = TRUE)
+Observed: Fault_Latched = FALSE; Fault_Lamp = FALSE
+Result: PASS
+
+Test 2D - Reset Button Release
+Input: Reset_Button returned to FALSE
+Observed: Fault_Latched and Fault_Lamp remained FALSE
+Result: PASS
+
+Test 2E - No Automatic Restart After Fault Reset
+Input: Fault cleared and Reset_Button released
+Observed: Conveyor_Motor remained FALSE
+Result: PASS
+
+
+TEST 03: PRODUCT COUNTING AND BATCH COMPLETION
+
+Test 3A - Product Counting
+Input: Product_Sensor triggered using FALSE-to-TRUE transitions
+Observed: CTU0 incremented Product_Count for detected products
+Result: PASS
+
+Test 3B - Batch Target Reached
+Input: Product_Count reached preset value PV = 10
+Observed: Batch_Complete = TRUE; Conveyor_Motor = FALSE
+Result: PASS
+
+Test 3C - Restart Inhibited After Batch Completion
+Input: Start_Button activated while Batch_Complete = TRUE
+Observed: Conveyor_Motor remained FALSE
+Result: PASS
+
+Test 3D - Counter Reset
+Input: Reset_Button = TRUE
+Observed: Product_Count reset; Batch_Complete cleared
+Result: PASS
+
+Test 3E - New Counting Cycle
+Input: Product_Sensor triggered again after reset
+Observed: Counter accepted new product pulses
+Result: PASS
+
+

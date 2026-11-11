@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "name": "Automated_Conveyor_Control",
+    "type": "plc-project"
+  },
+  "data": {
+    "dataTypes": [],
+    "globalVariableLists": [],
+    "pous": [],
+    "configuration": {
+      "resource": {
+        "tasks": [
+          {
+            "name": "task0",
+            "triggering": "Cyclic",
+            "interval": "T#200ms",
+            "priority": 1
+          }
+        ],
+        "instances": [
+          {
+            "name": "instance0",
+            "task": "task0",
+            "program": "main"
+          }
+        ],
+        "globalVariables": []
+      }
+    },
+    "libraries": [],
+    "debugVariables": {
+      "pous": {
+        "main": [
+          "Start_Button",
+          "Stop_OK",
+          "Product_Sensor",
+          "Overload_OK",
+          "Reset_Button",
+          "Conveyor_Motor",
+          "Fault_Latched",
+          "Product_Count",
+          "Fault_Lamp",
+          "CTU0",
+          "Batch_Complete",
+          "Run_Lamp"
+        ]
+      }
+    }
+  }
+}
